@@ -22,7 +22,7 @@ jobs:
       - name: Get run ID of "ci_dev" workflow
         id: get-run-id
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           OTHER_REPO="${{ github.repository }}"
           WF_NAME="CI"
