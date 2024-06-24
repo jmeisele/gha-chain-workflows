@@ -2,8 +2,8 @@ name: CI Prod AWS Account
 
 on:
   workflow_run:
-      workflows: ['CI']
-      types: [completed]
+    workflows: [CI]
+    types: [completed]
 
 jobs:
   download-artifacts:
@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           OTHER_REPO="${{ github.repository }}"
-          WF_NAME="CI"
+          WF_NAME="CI Dev"
           RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
           echo "Detected latest run id of ${RUN_ID} for workflow ${WF_NAME}"
           echo "run-id=${RUN_ID}" >> "$GITHUB_OUTPUT"
@@ -43,17 +43,16 @@ jobs:
       - name: Show downloaded files
         run: ls -la
 
-      # - uses: actions/download-artifact@v4
-      #   with:
-      #     name: my-other-artifact
-      #     # github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
-      #     # repository: actions/toolkit
-      #     # run-id: 1234
-      #     run-id: ${{ github.event.worklflow_run.id }}
-      #     repository: ${{ github.repo }}
-      #     github-token: ${{ github.token }}
-      
-      # - name: Download layer.zip
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: layer
+  on-failure:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    name: On Failure
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo 'The triggering workflow failed'
+
+  on-requested:
+    if: ${{ github.event.workflow_run.conclusion == 'requested' }}
+    name: On Requested
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo 'The triggering workflow started'
