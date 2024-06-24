@@ -3,7 +3,7 @@ name: CI Prod AWS Account
 on:
   workflow_run:
     workflows: ['CI Dev']
-    types: [completed]
+    # types: [completed]
 
 jobs:
   download-artifacts:
