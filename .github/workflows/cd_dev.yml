@@ -1,0 +1,25 @@
+name: CD Dev AWS Account
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  download-artifacts:
+    name: Download Artifacts
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+    
+      - name: Echo
+        run: |
+          echo "hello from CD Dev"
+
