@@ -10,7 +10,7 @@ jobs:
     name: Download Artifacts
     runs-on: ubuntu-20.04
     permissions:
-      contents: write
+      contents: read
       id-token: write
       packages: read
       pull-requests: write
