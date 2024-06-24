@@ -2,7 +2,7 @@ name: CI Prod AWS Account
 
 on:
   workflow_run:
-    workflows: [CI]
+    workflows: ['CI Dev']
     types: [completed]
 
 jobs:
