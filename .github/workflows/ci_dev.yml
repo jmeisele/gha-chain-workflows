@@ -20,7 +20,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Echo
+      - name: Install aws-xray-sdk
         run: |
-          echo "hello from CI"
+          pip3 install aws-xray-sdk -t ./python
+      
+      - name: Zip aws-xray-sdk
+        run: |
+          zip -r layer.zip ./python
 
+      - name: Upload layer.zip artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: layer
+          path: ./layer.zip
